@@ -1,0 +1,155 @@
+package grade;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GradeManager {
+
+    public static void main(String[] args) {
+        // Create the main frame
+        JFrame frame = new JFrame("Student Grade Manager");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(450, 600);
+        frame.setLayout(new BorderLayout(10, 10));
+        frame.getContentPane().setBackground(Color.WHITE); // Background color
+
+        // Title label
+        JLabel title = new JLabel("Student Grade Manager", JLabel.CENTER);
+        title.setFont(new Font("Times New Roman", Font.BOLD, 26)); // Changed to Times New Roman
+        title.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10)); // Add padding
+        frame.add(title, BorderLayout.NORTH);
+
+        // Panel for input fields and labels
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add margin
+        frame.add(inputPanel, BorderLayout.CENTER);
+
+        // Subject labels and text fields
+        JLabel subject1Label = new JLabel("Subject 1 Grade:");
+        subject1Label.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JTextField subject1Field = new JTextField();
+        subject1Field.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+        JLabel subject2Label = new JLabel("Subject 2 Grade:");
+        subject2Label.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JTextField subject2Field = new JTextField();
+        subject2Field.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+        JLabel subject3Label = new JLabel("Subject 3 Grade:");
+        subject3Label.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JTextField subject3Field = new JTextField();
+        subject3Field.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+        JLabel subject4Label = new JLabel("Subject 4 Grade:");
+        subject4Label.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JTextField subject4Field = new JTextField();
+        subject4Field.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+        inputPanel.add(subject1Label);
+        inputPanel.add(subject1Field);
+        inputPanel.add(subject2Label);
+        inputPanel.add(subject2Field);
+        inputPanel.add(subject3Label);
+        inputPanel.add(subject3Field);
+        inputPanel.add(subject4Label);
+        inputPanel.add(subject4Field);
+
+        // Buttons for calculation and clearing
+        JButton calculateButton = new JButton("Calculate");
+        calculateButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+        JButton clearButton = new JButton("Clear");
+        clearButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+
+        inputPanel.add(calculateButton);
+        inputPanel.add(clearButton);
+
+        // Panel for displaying results
+        JPanel resultPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        resultPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add margin
+        frame.add(resultPanel, BorderLayout.SOUTH);
+
+        JLabel averageLabel = new JLabel("Average Grade:");
+        averageLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JLabel averageValue = new JLabel("-");
+        averageValue.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        JLabel letterGradeLabel = new JLabel("Letter Grade:");
+        letterGradeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JLabel letterGradeValue = new JLabel("-");
+        letterGradeValue.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        JLabel gpaLabel = new JLabel("GPA:");
+        gpaLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        JLabel gpaValue = new JLabel("-");
+        gpaValue.setFont(new Font("Times New Roman", Font.BOLD, 18));
+
+        resultPanel.add(averageLabel);
+        resultPanel.add(averageValue);
+        resultPanel.add(letterGradeLabel);
+        resultPanel.add(letterGradeValue);
+        resultPanel.add(gpaLabel);
+        resultPanel.add(gpaValue);
+
+        // Button functionality
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double grade1 = Double.parseDouble(subject1Field.getText());
+                    double grade2 = Double.parseDouble(subject2Field.getText());
+                    double grade3 = Double.parseDouble(subject3Field.getText());
+                    double grade4 = Double.parseDouble(subject4Field.getText());
+
+                    // Calculate average
+                    double average = (grade1 + grade2 + grade3 + grade4) / 4;
+
+                    // Determine letter grade and GPA
+                    String letterGrade;
+                    double gpa;
+                    if (average >= 90) {
+                        letterGrade = "A";
+                        gpa = 4.0;
+                    } else if (average >= 80) {
+                        letterGrade = "B";
+                        gpa = 3.0;
+                    } else if (average >= 70) {
+                        letterGrade = "C";
+                        gpa = 2.0;
+                    } else if (average >= 60) {
+                        letterGrade = "D";
+                        gpa = 1.0;
+                    } else {
+                        letterGrade = "F";
+                        gpa = 0.0;
+                    }
+
+                    // Display results
+                    averageValue.setText(String.format("%.2f", average));
+                    letterGradeValue.setText(letterGrade);
+                    gpaValue.setText(String.format("%.1f", gpa));
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please enter valid numbers for all grades!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                subject1Field.setText("");
+                subject2Field.setText("");
+                subject3Field.setText("");
+                subject4Field.setText("");
+                averageValue.setText("-");
+                letterGradeValue.setText("-");
+                gpaValue.setText("-");
+            }
+        });
+
+        // Make the frame visible
+        frame.setVisible(true);
+    }
+}
